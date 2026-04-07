@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tuzamurane Tailors Cooperative</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --brown-deep: #3B1F0C; --brown-mid: #6B3A1F; --brown-warm: #8B4513;
+    --cream: #F5EDD6; --cream-light: #FAF5EA;
+    --gold: #C9920A; --gold-light: #E8B84B;
+    --green-mid: #2D5A27; --green-light: #4A7C3F;
+    --text-dark: #1A1208; --text-mid: #4A3520; --text-light: #7A6050;
+    --white: #FFFFFF;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream-light); color: var(--text-dark); overflow-x: hidden; }
+
+  /* NAV */
+  nav { position: sticky; top: 0; z-index: 1000; background: var(--brown-deep); border-bottom: 2px solid var(--gold); padding: 0 2rem; height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 1rem; transition: box-shadow 0.3s; }
+  nav.scrolled { box-shadow: 0 4px 24px rgba(0,0,0,0.4); }
+  .nav-logo { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); flex-shrink: 0; background: #fff; cursor: pointer; transition: transform 0.2s; }
+  .nav-logo:hover { transform: scale(1.08); }
+  .nav-links { display: flex; align-items: center; gap: 0.2rem; flex: 1; justify-content: center; list-style: none; }
+  .nav-links a { text-decoration: none; color: rgba(245,237,214,0.72); font-size: 14px; font-weight: 500; padding: 8px 16px; border-radius: 6px; transition: color 0.2s, background 0.2s; position: relative; }
+  .nav-links a::after { content: ''; position: absolute; bottom: 2px; left: 50%; right: 50%; height: 2px; background: var(--gold); border-radius: 2px; transition: left 0.25s, right 0.25s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--cream); }
+  .nav-links a:hover::after, .nav-links a.active::after { left: 16px; right: 16px; }
+  .nav-contact a { background: var(--green-mid) !important; color: var(--white) !important; border-radius: 24px !important; padding: 8px 20px !important; }
+  .nav-contact a::after { display: none !important; }
+  .nav-contact a:hover { background: var(--green-light) !important; }
+
+  /* HERO */
+  #home { min-height: 92vh; background: linear-gradient(160deg, var(--brown-deep) 0%, var(--brown-mid) 55%, var(--brown-warm) 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 5rem 2rem 4rem; position: relative; overflow: hidden; }
+  #home::before { content: ''; position: absolute; inset: 0; background-image: repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(255,255,255,0.015) 40px, rgba(255,255,255,0.015) 80px); }
+  .hero-badge { display: inline-block; background: rgba(201,146,10,0.18); border: 1px solid var(--gold); color: var(--gold-light); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; padding: 6px 18px; border-radius: 24px; margin-bottom: 1.5rem; opacity: 0; transform: translateY(20px); animation: fadeUp 0.7s 0.1s forwards; }
+  #home h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.8rem, 7vw, 5.5rem); font-weight: 700; color: var(--cream); line-height: 1.1; max-width: 900px; margin-bottom: 1rem; opacity: 0; transform: translateY(24px); animation: fadeUp 0.7s 0.25s forwards; }
+  #home h1 span { color: var(--gold-light); }
+  .hero-sub { font-size: clamp(1rem, 2.5vw, 1.2rem); color: rgba(245,237,214,0.7); max-width: 620px; line-height: 1.75; margin-bottom: 2.5rem; opacity: 0; transform: translateY(24px); animation: fadeUp 0.7s 0.4s forwards; }
+  .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; opacity: 0; transform: translateY(24px); animation: fadeUp 0.7s 0.55s forwards; }
+  @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+  .btn-primary { background: var(--gold); color: var(--brown-deep); border: none; padding: 14px 32px; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-block; transition: background 0.2s, transform 0.15s, box-shadow 0.2s; }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(201,146,10,0.35); }
+  .btn-primary:active { transform: translateY(0); }
+  .btn-outline { background: transparent; color: var(--cream); border: 1.5px solid rgba(245,237,214,0.4); padding: 14px 32px; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 400; cursor: pointer; display: inline-block; transition: border-color 0.2s, background 0.2s, transform 0.15s; }
+  .btn-outline:hover { border-color: var(--cream); background: rgba(255,255,255,0.07); transform: translateY(-2px); }
+  .hero-stats { display: flex; gap: 3rem; margin-top: 4rem; flex-wrap: wrap; justify-content: center; opacity: 0; animation: fadeUp 0.7s 0.8s forwards; }
+  .stat { text-align: center; }
+  .stat-num { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700; color: var(--gold-light); }
+  .stat-label { font-size: 11px; color: rgba(245,237,214,0.55); letter-spacing: 0.06em; text-transform: uppercase; margin-top: 4px; }
+  .scroll-ind { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 6px; opacity: 0; animation: fadeUp 0.7s 1.1s forwards; cursor: pointer; }
+  .scroll-ind span { font-size: 11px; color: rgba(245,237,214,0.45); letter-spacing: 0.08em; text-transform: uppercase; }
+  .scroll-arrow { width: 20px; height: 20px; border-right: 2px solid rgba(201,146,10,0.6); border-bottom: 2px solid rgba(201,146,10,0.6); transform: rotate(45deg); animation: bounce 1.5s infinite; }
+  @keyframes bounce { 0%,100% { transform: rotate(45deg) translateY(0); } 50% { transform: rotate(45deg) translateY(5px); } }
+
+  /* SECTIONS */
+  section { padding: 5rem 2rem; }
+  #about { background: var(--white); }
+  #roadmap { background: var(--cream-light); }
+  #team { background: var(--white); }
+  #contact { background: var(--brown-deep); }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+  .section-label { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--brown-warm); font-weight: 500; margin-bottom: 0.75rem; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; color: var(--brown-deep); line-height: 1.2; margin-bottom: 1.25rem; }
+  .section-body { font-size: 16px; line-height: 1.8; color: var(--text-mid); max-width: 700px; }
+
+  /* ABOUT */
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+  .about-visual { background: var(--brown-deep); border-radius: 16px; padding: 2.5rem; text-align: center; border: 1px solid rgba(201,146,10,0.25); }
+  .about-visual img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 3px solid var(--gold); }
+  .av-title { font-family: 'Playfair Display', serif; color: var(--cream); font-size: 1.2rem; margin-top: 1rem; margin-bottom: 0.25rem; }
+  .av-sub { color: var(--gold-light); font-size: 13px; }
+  .problem-box { background: var(--brown-deep); border-left: 4px solid var(--gold); border-radius: 0 12px 12px 0; padding: 1.5rem 1.75rem; margin-top: 1.5rem; color: var(--cream); font-size: 15px; line-height: 1.7; }
+  .problem-box strong { color: var(--gold-light); }
+  .value-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem; margin-top: 3.5rem; }
+  .value-card { background: var(--cream-light); border-radius: 14px; padding: 1.5rem; border: 1px solid rgba(107,58,31,0.12); transition: transform 0.2s, box-shadow 0.2s; }
+  .value-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(107,58,31,0.1); }
+  .vc-icon { font-size: 1.6rem; margin-bottom: 0.6rem; }
+  .vc-title { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--brown-deep); margin-bottom: 0.5rem; }
+  .vc-body { font-size: 13px; color: var(--text-light); line-height: 1.65; }
+
+  /* ROADMAP */
+  .roadmap-track { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+  .milestone { background: var(--white); border: 1px solid rgba(107,58,31,0.12); border-radius: 14px; padding: 1.5rem; position: relative; overflow: hidden; transition: transform 0.2s; }
+  .milestone:hover { transform: translateY(-4px); }
+  .milestone::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--gold); }
+  .milestone:nth-child(3)::before { background: var(--green-mid); }
+  .milestone:nth-child(4)::before { background: var(--brown-warm); }
+  .ms-tag { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--brown-warm); margin-bottom: 0.5rem; }
+  .milestone:nth-child(3) .ms-tag { color: var(--green-mid); }
+  .ms-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--brown-deep); margin-bottom: 0.75rem; }
+  .milestone ul { list-style: none; padding: 0; }
+  .milestone li { font-size: 13.5px; color: var(--text-mid); padding: 4px 0 4px 1.1rem; position: relative; }
+  .milestone li::before { content: '→'; position: absolute; left: 0; color: var(--gold); font-size: 11px; top: 5px; }
+
+  /* TEAM */
+  .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+  .team-card { background: var(--brown-deep); border-radius: 14px; padding: 2rem 1.5rem; text-align: center; border: 1px solid rgba(201,146,10,0.18); transition: transform 0.2s, border-color 0.2s; }
+  .team-card:hover { transform: translateY(-4px); border-color: rgba(201,146,10,0.45); }
+  .team-avatar { width: 72px; height: 72px; border-radius: 50%; background: var(--brown-mid); border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--gold-light); margin: 0 auto 1rem; }
+  .team-name { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--cream); margin-bottom: 0.3rem; }
+  .team-role { font-size: 13px; color: var(--gold-light); }
+  .partners-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2.5rem; }
+  .partner-chip { background: var(--cream-light); border: 1px solid rgba(107,58,31,0.18); border-radius: 10px; padding: 0.75rem 1.25rem; font-size: 13.5px; font-weight: 500; color: var(--text-mid); display: flex; align-items: center; gap: 8px; transition: border-color 0.2s, transform 0.2s; }
+  .partner-chip:hover { border-color: var(--gold); transform: translateY(-2px); }
+  .pdot { width: 8px; height: 8px; border-radius: 50%; background: var(--green-mid); flex-shrink: 0; }
+
+  /* CONTACT SECTION */
+  #contact .section-label { color: var(--gold-light); }
+  #contact .section-title { color: var(--cream); }
+  #contact .section-body { color: rgba(245,237,214,0.65); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 3.5rem; margin-top: 2.5rem; align-items: start; }
+  .cinfo-item { display: flex; gap: 1rem; margin-bottom: 1.75rem; align-items: flex-start; }
+  .cinfo-icon { width: 42px; height: 42px; border-radius: 10px; background: rgba(201,146,10,0.14); border: 1px solid rgba(201,146,10,0.28); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 18px; }
+  .cinfo-label { font-size: 11px; color: rgba(245,237,214,0.45); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 3px; }
+  .cinfo-value { font-size: 14.5px; color: var(--cream); line-height: 1.55; }
+
+  /* FORMS */
+  .form-box { background: rgba(255,255,255,0.05); border: 1px solid rgba(245,237,214,0.12); border-radius: 16px; padding: 2rem; }
+  .form-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--cream); margin-bottom: 1.5rem; }
+  .form-group { margin-bottom: 1rem; position: relative; }
+  .form-group label { display: block; font-size: 12px; color: rgba(245,237,214,0.5); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+  .form-group input, .form-group textarea, .form-group select { width: 100%; background: rgba(255,255,255,0.07); border: 1px solid rgba(245,237,214,0.18); border-radius: 9px; padding: 12px 16px; color: var(--cream); font-family: 'DM Sans', sans-serif; font-size: 15px; outline: none; transition: border-color 0.2s, background 0.2s; appearance: none; }
+  .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(245,237,214,0.28); }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--gold); background: rgba(255,255,255,0.1); }
+  .form-group.error input, .form-group.error textarea, .form-group.error select { border-color: #D9534F; }
+  .form-group select option { background: var(--brown-deep); color: var(--cream); }
+  .err-msg { font-size: 12px; color: #F08080; margin-top: 5px; display: none; }
+  .form-group.error .err-msg { display: block; }
+  .form-group textarea { min-height: 110px; resize: vertical; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .submit-row { display: flex; align-items: center; gap: 1rem; margin-top: 1.25rem; flex-wrap: wrap; }
+  .btn-submit { background: var(--gold); color: var(--brown-deep); border: none; padding: 13px 28px; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; cursor: pointer; transition: background 0.2s, transform 0.15s; display: flex; align-items: center; gap: 8px; }
+  .btn-submit:hover { background: var(--gold-light); transform: translateY(-1px); }
+  .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  .form-status { font-size: 14px; padding: 10px 16px; border-radius: 8px; display: none; }
+  .form-status.success { background: rgba(45,106,45,0.25); color: #90EE90; border: 1px solid rgba(45,106,45,0.4); display: block; }
+  .form-status.error-msg-box { background: rgba(139,26,26,0.25); color: #F08080; border: 1px solid rgba(139,26,26,0.4); display: block; }
+  .spinner { width: 16px; height: 16px; border: 2px solid rgba(59,31,12,0.3); border-top-color: var(--brown-deep); border-radius: 50%; animation: spin 0.7s linear infinite; display: none; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* MODAL SHARED */
+  .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.72); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; backdrop-filter: blur(3px); }
+  .modal-backdrop.open { opacity: 1; visibility: visible; }
+  .modal { background: var(--cream-light); border-radius: 20px; width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; transform: translateY(30px) scale(0.97); transition: transform 0.3s; position: relative; }
+  .modal-backdrop.open .modal { transform: translateY(0) scale(1); }
+  .modal-hd { background: var(--brown-deep); padding: 1.75rem 2rem 1.5rem; border-radius: 20px 20px 0 0; border-bottom: 2px solid var(--gold); position: relative; }
+  .modal-hd h2 { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--cream); margin-bottom: 0.25rem; }
+  .modal-hd p { font-size: 13px; color: rgba(245,237,214,0.55); }
+  .modal-close { position: absolute; top: 1.25rem; right: 1.5rem; background: rgba(255,255,255,0.08); border: 1px solid rgba(245,237,214,0.2); border-radius: 8px; color: var(--cream); width: 34px; height: 34px; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+  .modal-close:hover { background: rgba(255,255,255,0.18); }
+  .modal-bd { padding: 2rem; }
+
+  /* PARTNER MODAL specifics */
+  .ptype-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.25rem; }
+  .ptype-btn { background: var(--white); border: 1.5px solid rgba(107,58,31,0.18); border-radius: 10px; padding: 0.9rem 1rem; cursor: pointer; transition: border-color 0.2s, background 0.2s; text-align: left; font-family: 'DM Sans', sans-serif; }
+  .ptype-btn:hover { border-color: var(--gold); }
+  .ptype-btn.selected { border-color: var(--gold); background: rgba(201,146,10,0.08); }
+  .pt-icon { font-size: 1.3rem; margin-bottom: 4px; }
+  .pt-label { font-size: 13px; font-weight: 500; color: var(--brown-deep); }
+  .pt-desc { font-size: 11px; color: var(--text-light); margin-top: 2px; }
+
+  /* PARTNER modal form — light bg */
+  .modal-form label { color: var(--text-mid) !important; }
+  .modal-form input, .modal-form textarea, .modal-form select { background: var(--white) !important; border: 1px solid rgba(107,58,31,0.2) !important; color: var(--text-dark) !important; }
+  .modal-form input::placeholder, .modal-form textarea::placeholder { color: rgba(74,53,32,0.35) !important; }
+  .modal-form input:focus, .modal-form textarea:focus, .modal-form select:focus { border-color: var(--gold) !important; }
+  .modal-form .err-msg { color: #C0392B; }
+  .modal-form .form-group.error input,
+  .modal-form .form-group.error textarea,
+  .modal-form .form-group.error select { border-color: #C0392B !important; }
+  .modal-form .btn-submit { background: var(--gold); color: var(--brown-deep); }
+  .modal-form .form-status.success { background: rgba(45,106,45,0.12); color: #1A5C1A; border-color: rgba(45,106,45,0.3); }
+  .modal-form .form-status.error-msg-box { background: rgba(192,57,43,0.1); color: #8B0000; border-color: rgba(192,57,43,0.3); }
+
+  /* STORY MODAL */
+  .story-modal { max-width: 680px; }
+  .story-hd { background: linear-gradient(135deg, var(--brown-deep), var(--brown-mid)); padding: 2.5rem 2rem 2rem; border-radius: 20px 20px 0 0; border-bottom: 2px solid var(--gold); text-align: center; position: relative; }
+  .story-hd h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--cream); margin-bottom: 0.5rem; }
+  .story-hd p { font-size: 14px; color: rgba(245,237,214,0.6); }
+  .story-bd { padding: 2rem; }
+  .chapter { margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid rgba(107,58,31,0.15); }
+  .chapter:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .chapter h3 { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--brown-deep); margin-bottom: 0.75rem; }
+  .chapter p { font-size: 15px; color: var(--text-mid); line-height: 1.8; }
+  .stat-row { display: flex; gap: 1.25rem; flex-wrap: wrap; margin-top: 1.25rem; }
+  .stat-box { background: var(--brown-deep); border-radius: 12px; padding: 1rem 1.5rem; text-align: center; flex: 1; min-width: 100px; }
+  .sb-num { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--gold-light); }
+  .sb-lbl { font-size: 11px; color: rgba(245,237,214,0.5); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 3px; }
+
+  /* TOAST */
+  #toast { position: fixed; bottom: 2rem; right: 2rem; background: var(--brown-deep); color: var(--cream); border: 1px solid var(--gold); border-radius: 12px; padding: 1rem 1.5rem; font-size: 14px; z-index: 3000; transform: translateY(120px); opacity: 0; transition: transform 0.35s, opacity 0.35s; max-width: 320px; box-shadow: 0 8px 32px rgba(0,0,0,0.35); }
+  #toast.show { transform: translateY(0); opacity: 1; }
+  .toast-title { font-weight: 500; color: var(--gold-light); margin-bottom: 3px; }
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* FOOTER */
+  footer { background: #150E05; padding: 2rem; text-align: center; font-size: 13px; color: rgba(245,237,214,0.35); border-top: 1px solid rgba(201,146,10,0.18); }
+
+  @media (max-width: 768px) {
+    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .form-row { grid-template-columns: 1fr; }
+    .ptype-grid { grid-template-columns: 1fr; }
+    nav { padding: 0 1rem; }
+    .hero-stats { gap: 1.5rem; }
+    .nav-links a { padding: 8px 10px; font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <img src="Tuzamurane_Tailors-removebg-preview.png" alt="TTC" class="nav-logo" onclick="scrollTo('home')"
+    onerror="this.outerHTML='<div onclick=\'scrollTo(\"home\")\' style=\'width:56px;height:56px;border-radius:50%;border:2px solid var(--gold);background:var(--brown-mid);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--gold-light);font-weight:500;cursor:pointer;flex-shrink:0;\'>TTC</div>'">
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#home" data-sec="home">Home</a></li>
+    <li><a href="#about" data-sec="about">About</a></li>
+    <li><a href="#roadmap" data-sec="roadmap">Roadmap</a></li>
+    <li><a href="#team" data-sec="team">Team</a></li>
+    <li class="nav-contact"><a href="#contact" data-sec="contact">Contact</a></li>
+  </ul>
+  <img src="WhatsApp_Image_2026-01-02_at_11_34_30-removebg-preview.png" alt="Nyaminga Ushoboye" class="nav-logo" title="Partner: Nyaminga Ushoboye Initiative"
+    onerror="this.outerHTML='<div style=\'width:56px;height:56px;border-radius:50%;border:2px solid var(--gold);background:var(--brown-mid);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--gold-light);font-weight:500;flex-shrink:0;\'>NY</div>'">
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-badge">Kigali · Rwanda · Est. 2025</div>
+  <h1>Tuzamurane <span>Tailors</span><br>Cooperative</h1>
+  <p class="hero-sub">Empowering trained teen mothers in Masaka Sector through a legally registered tailoring cooperative — turning skill into sustainable income.</p>
+  <div class="hero-ctas">
+    <button class="btn-primary" onclick="openStory()">Learn Our Story</button>
+    <button class="btn-outline" onclick="openPartner()">Partner With Us</button>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num" data-count="10">0</div><div class="stat-label">Founding Members</div></div>
+    <div class="stat"><div class="stat-num" data-count="200">0</div><div class="stat-label">Trained Graduates</div></div>
+    <div class="stat"><div class="stat-num" data-count="40">0</div><div class="stat-label">Target Schools</div></div>
+    <div class="stat"><div class="stat-num">9M RWF</div><div class="stat-label">Year 1 Revenue Target</div></div>
+  </div>
+  <div class="scroll-ind" onclick="scrollTo('about')">
+    <span>Scroll</span><div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="about-grid reveal">
+      <div>
+        <div class="section-label">Our Mission</div>
+        <h2 class="section-title">Stitching Lives Back Together</h2>
+        <p class="section-body">Tuzamurane Tailors Cooperative (TTC) is a for-profit cooperative in Ayabaraya Cell, Masaka Sector, Kicukiro District. We equip unemployed teen mothers — graduates of the Nyaminga Ushoboye tailoring program — with shared workspace, equipment, governance training, and school uniform contracts.</p>
+        <div class="problem-box"><strong>The Problem:</strong> 7% of Rwandan girls aged 15–30 have begun childbearing (DHS 2020). Despite 200+ graduates trained in tailoring, most remain unemployed — no startup capital, no equipment, no market access.</div>
+      </div>
+      <div class="about-visual">
+        <img src="WhatsApp_Image_2026-01-02_at_11_34_30-removebg-preview.png" alt="Nyaminga Ushoboye" onerror="this.style.display='none'">
+        <div class="av-title">Nyaminga Ushoboye Initiative</div>
+        <div class="av-sub">Beneficiary Pipeline & Formation Support</div>
+        <div style="margin-top:1.5rem;height:1px;background:rgba(201,146,10,0.2);"></div>
+        <div style="display:flex;gap:2rem;justify-content:center;margin-top:1.5rem;">
+          <div><div style="font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--gold-light);">200+</div><div style="font-size:11px;color:rgba(245,237,214,0.5);text-transform:uppercase;letter-spacing:0.05em;">Graduates</div></div>
+          <div><div style="font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--gold-light);">2</div><div style="font-size:11px;color:rgba(245,237,214,0.5);text-transform:uppercase;letter-spacing:0.05em;">Sectors</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="value-cards reveal">
+      <div class="value-card"><div class="vc-icon">🪡</div><div class="vc-title">Immediate Income</div><div class="vc-body">RWF 90,000–150,000/month per member from day one of production</div></div>
+      <div class="value-card"><div class="vc-icon">🤝</div><div class="vc-title">Shared Risk Model</div><div class="vc-body">Cooperative structure distributes costs and builds community resilience</div></div>
+      <div class="value-card"><div class="vc-icon">🏫</div><div class="vc-title">School Contracts</div><div class="vc-body">Direct uniform supply to 40+ schools in Kicukiro District annually</div></div>
+      <div class="value-card"><div class="vc-icon">📈</div><div class="vc-title">25% Reinvestment</div><div class="vc-body">Monthly surplus reinvested to grow membership and expand capacity</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section id="roadmap">
+  <div class="section-inner">
+    <div class="section-label reveal">Our Timeline</div>
+    <h2 class="section-title reveal">From Launch to Self-Sufficiency</h2>
+    <p class="section-body reveal">A structured path ensuring every milestone builds the next stage of financial independence.</p>
+    <div class="roadmap-track">
+      <div class="milestone reveal"><div class="ms-tag">Month 1</div><div class="ms-title">Foundation</div><ul><li>10 teen mothers legally registered</li><li>RCA cooperative certification</li><li>Workspace set up in Masaka</li><li>Equipment installed & operational</li></ul></div>
+      <div class="milestone reveal"><div class="ms-tag">Month 3</div><div class="ms-title">Income Launch</div><ul><li>All members earning RWF 90K–150K/mo</li><li>25+ dependent children stabilised</li><li>Financial literacy training complete</li><li>Quality control systems in place</li></ul></div>
+      <div class="milestone reveal"><div class="ms-tag">Month 6</div><div class="ms-title">Market Entry</div><ul><li>1st school uniform contract secured</li><li>25% surplus reinvested monthly</li><li>Community garment orders active</li><li>Word-of-mouth channels growing</li></ul></div>
+      <div class="milestone reveal"><div class="ms-tag">Year 1</div><div class="ms-title">Self-Sustaining</div><ul><li>Revenue ≥ RWF 9,000,000</li><li>Financially independent cooperative</li><li>Membership expanded to 20 mothers</li><li>Direct school outreach built</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="section-inner">
+    <div class="section-label">The People</div>
+    <h2 class="section-title">Our Team</h2>
+    <p class="section-body">A dedicated group driving the cooperative's mission with expertise across operations, community, and craft.</p>
+    <div class="team-grid">
+      <div class="team-card reveal"><div class="team-avatar">MS</div><div class="team-name">Muhire Sharifu</div><div class="team-role">Founder & Program Lead</div></div>
+      <div class="team-card reveal"><div class="team-avatar">OC</div><div class="team-name">Operations Coordinator</div><div class="team-role">Operations & Logistics</div></div>
+      <div class="team-card reveal"><div class="team-avatar">CM</div><div class="team-name">Certified Mentor</div><div class="team-role">Tailoring & Quality Control</div></div>
+      <div class="team-card reveal"><div class="team-avatar">FT</div><div class="team-name">Finance Trainer</div><div class="team-role">Financial Literacy & Governance</div></div>
+    </div>
+    <div style="margin-top:4rem;" class="reveal">
+      <div class="section-label">Partners & Stakeholders</div>
+      <h3 class="section-title" style="font-size:1.75rem;">Who Stands With Us</h3>
+      <div class="partners-row">
+        <div class="partner-chip"><div class="pdot"></div>Nyaminga Ushoboye Initiative</div>
+        <div class="partner-chip"><div class="pdot"></div>Rwanda Cooperative Agency (RCA)</div>
+        <div class="partner-chip"><div class="pdot"></div>Rwanda Development Board (RDB)</div>
+        <div class="partner-chip"><div class="pdot" style="background:var(--gold);"></div>Local Community Leaders</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="section-label">Get In Touch</div>
+    <h2 class="section-title">Send Us a Message</h2>
+    <p class="section-body">School, investor, or partner — we'd love to hear from you.</p>
+    <div class="contact-grid reveal">
+      <div>
+        <div class="cinfo-item"><div class="cinfo-icon">📍</div><div><div class="cinfo-label">Location</div><div class="cinfo-value">Ayabaraya Cell, Masaka Sector<br>Kicukiro District, Kigali</div></div></div>
+        <div class="cinfo-item"><div class="cinfo-icon">🏛️</div><div><div class="cinfo-label">Registration</div><div class="cinfo-value">Rwanda Cooperative Agency<br>For-Profit Cooperative</div></div></div>
+        <div class="cinfo-item"><div class="cinfo-icon">🤝</div><div><div class="cinfo-label">Partnership</div><div class="cinfo-value">Nyaminga Ushoboye Initiative<br>Beneficiary pipeline partner</div></div></div>
+        <div class="cinfo-item"><div class="cinfo-icon">✉️</div><div><div class="cinfo-label">Email</div><div class="cinfo-value">tuzamurane.tailors@gmail.com</div></div></div>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.5rem;align-items:center;">
+          <img src="Tuzamurane_Tailors-removebg-preview.png" alt="TTC" style="width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid rgba(201,146,10,0.5);background:#fff;" onerror="this.style.display='none'">
+          <img src="WhatsApp_Image_2026-01-02_at_11_34_30-removebg-preview.png" alt="NY" style="width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid rgba(201,146,10,0.5);" onerror="this.style.display='none'">
+        </div>
+      </div>
+      <div class="form-box">
+        <div class="form-title">Send a Message</div>
+        <form id="contactForm" novalidate>
+          <div class="form-row">
+            <div class="form-group" id="cg-name"><label for="c-name">Full Name</label><input type="text" id="c-name" placeholder="Your name"><div class="err-msg">Please enter your name.</div></div>
+            <div class="form-group" id="cg-email"><label for="c-email">Email</label><input type="email" id="c-email" placeholder="you@example.com"><div class="err-msg">Please enter a valid email.</div></div>
+          </div>
+          <div class="form-group" id="cg-subject"><label for="c-subject">Subject</label><select id="c-subject"><option value="">— Select a topic —</option><option value="uniform">School Uniform Order</option><option value="invest">Investment Inquiry</option><option value="partner">Partnership Opportunity</option><option value="media">Media / Press</option><option value="other">Other</option></select><div class="err-msg">Please select a subject.</div></div>
+          <div class="form-group" id="cg-message"><label for="c-message">Message</label><textarea id="c-message" placeholder="Tell us about your inquiry..."></textarea><div class="err-msg">Please write a message (min 20 characters).</div></div>
+          <div class="submit-row">
+            <button type="submit" class="btn-submit" id="cSubmitBtn"><span class="spinner" id="cSpinner"></span><span id="cBtnTxt">Send Message</span></button>
+            <div class="form-status" id="cStatus"></div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Tuzamurane Tailors Cooperative (TTC) · Masaka Sector, Kicukiro District, Kigali, Rwanda</p>
+  <p style="margin-top:6px;">In partnership with <strong style="color:rgba(245,237,214,0.5);">Nyaminga Ushoboye Initiative</strong></p>
+</footer>
+
+<!-- TOAST -->
+<div id="toast"><div class="toast-title" id="toastTitle"></div><div id="toastMsg"></div></div>
+
+<!-- LEARN OUR STORY MODAL -->
+<div class="modal-backdrop" id="storyBd" onclick="closeMdl(event,'storyBd')">
+  <div class="modal story-modal">
+    <div class="story-hd">
+      <button class="modal-close" onclick="closeStory()">✕</button>
+      <h2>Our Story</h2>
+      <p>How Tuzamurane Tailors Cooperative came to be</p>
+    </div>
+    <div class="story-bd">
+      <div class="chapter">
+        <h3>🌍 The Problem We Saw</h3>
+        <p>In Rwanda, 7% of girls aged 15–30 have already begun childbearing (Rwanda DHS, 2020). In Kigali alone, thousands of young mothers face interrupted education, limited employability, and deep social stigma. They were being left behind — not for lack of skill, but lack of opportunity.</p>
+      </div>
+      <div class="chapter">
+        <h3>✂️ Where It Started</h3>
+        <p>Nyaminga Ushoboye Initiative trained over 200 teen mothers in professional tailoring across Gahanga and Masaka Sectors. But 2025 program records revealed a painful gap: most graduates remained unemployed. They had the skills. They lacked startup capital, equipment, and a stable market.</p>
+        <div class="stat-row">
+          <div class="stat-box"><div class="sb-num">200+</div><div class="sb-lbl">Trained</div></div>
+          <div class="stat-box"><div class="sb-num">0</div><div class="sb-lbl">Startup Capital</div></div>
+          <div class="stat-box"><div class="sb-num">~0</div><div class="sb-lbl">Market Access</div></div>
+        </div>
+      </div>
+      <div class="chapter">
+        <h3>💡 The Solution: TTC</h3>
+        <p>Tuzamurane Tailors Cooperative (TTC) bridges that gap. By legally registering 10 trained teen mothers as a cooperative through the Rwanda Cooperative Agency, we gave them shared access to workspace, sewing machines, governance training, and financial literacy — and connected them directly to school uniform contracts.</p>
+      </div>
+      <div class="chapter">
+        <h3>🎯 What We're Building</h3>
+        <p>By Year 1, we project RWF 9,000,000 in revenue from school uniform contracts and community garment orders. Each member earns RWF 90,000–150,000 per month. 25% of monthly surplus is reinvested, expanding membership to 20 mothers and reducing NGO dependency by Year 2.</p>
+        <div class="stat-row">
+          <div class="stat-box"><div class="sb-num">9M RWF</div><div class="sb-lbl">Revenue Y1</div></div>
+          <div class="stat-box"><div class="sb-num">20</div><div class="sb-lbl">Members Y1</div></div>
+          <div class="stat-box"><div class="sb-num">25%</div><div class="sb-lbl">Reinvested</div></div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:2rem;">
+        <button class="btn-primary" onclick="closeStory();openPartner();">Partner With Us →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PARTNER WITH US MODAL -->
+<div class="modal-backdrop" id="partnerBd" onclick="closeMdl(event,'partnerBd')">
+  <div class="modal">
+    <div class="modal-hd">
+      <button class="modal-close" onclick="closePartner()">✕</button>
+      <h2>Partner With Us</h2>
+      <p>Choose how you'd like to collaborate with TTC</p>
+    </div>
+    <div class="modal-bd">
+      <p style="font-size:13px;color:var(--text-mid);margin-bottom:1rem;">I am interested in...</p>
+      <div class="ptype-grid">
+        <button class="ptype-btn" data-type="school" onclick="pickType(this)"><div class="pt-icon">🏫</div><div class="pt-label">School / Institution</div><div class="pt-desc">Order school uniforms</div></button>
+        <button class="ptype-btn" data-type="investor" onclick="pickType(this)"><div class="pt-icon">💰</div><div class="pt-label">Investor / Funder</div><div class="pt-desc">Financial support</div></button>
+        <button class="ptype-btn" data-type="ngo" onclick="pickType(this)"><div class="pt-icon">🌱</div><div class="pt-label">NGO / Organisation</div><div class="pt-desc">Programmatic partnership</div></button>
+        <button class="ptype-btn" data-type="mentor" onclick="pickType(this)"><div class="pt-icon">🎓</div><div class="pt-label">Mentor / Volunteer</div><div class="pt-desc">Skills & knowledge sharing</div></button>
+      </div>
+      <form id="partnerForm" class="modal-form" novalidate>
+        <input type="hidden" id="p-type" value="">
+        <div class="form-row">
+          <div class="form-group" id="pg-name"><label for="p-name">Full Name</label><input type="text" id="p-name" placeholder="Your name"><div class="err-msg">Name is required.</div></div>
+          <div class="form-group"><label for="p-org">Organisation</label><input type="text" id="p-org" placeholder="Optional"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group" id="pg-email"><label for="p-email">Email</label><input type="email" id="p-email" placeholder="you@example.com"><div class="err-msg">Valid email required.</div></div>
+          <div class="form-group"><label for="p-phone">Phone (optional)</label><input type="tel" id="p-phone" placeholder="+250 7XX XXX XXX"></div>
+        </div>
+        <div class="form-group" id="pg-uniforms" style="display:none;"><label for="p-uniforms">Estimated Uniforms/Year</label><select id="p-uniforms"><option value="">— Select range —</option><option>Under 100</option><option>100 – 500</option><option>500 – 1,000</option><option>1,000+</option></select></div>
+        <div class="form-group" id="pg-funding" style="display:none;"><label for="p-funding">Potential Funding (RWF)</label><select id="p-funding"><option value="">— Select range —</option><option>Under 500,000</option><option>500,000 – 2,000,000</option><option>2,000,000 – 5,000,000</option><option>5,000,000+</option></select></div>
+        <div class="form-group" id="pg-pmsg"><label for="p-message">Tell Us More</label><textarea id="p-message" placeholder="Describe your interest..."></textarea><div class="err-msg">Please write a short message (min 10 characters).</div></div>
+        <div class="submit-row">
+          <button type="submit" class="btn-submit" id="pSubmitBtn"><span class="spinner" id="pSpinner"></span><span id="pBtnTxt">Submit Request</span></button>
+          <div class="form-status" id="pStatus"></div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     JAVASCRIPT — all functionality below
+══════════════════════════════════════ -->
+<script>
+
+/* ══════════════════════════════════════
+   1. SMOOTH SCROLL NAVIGATION
+   — scrollTo(id): smoothly moves to any section
+   — navClick intercepts <a> clicks
+   — IntersectionObserver highlights active nav link
+══════════════════════════════════════ */
+function scrollTo(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth' });
+}
+
+// Intercept all nav link clicks for smooth scroll
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', function(e) {
+    e.preventDefault();
+    const sec = this.dataset.sec;
+    scrollTo(sec);
+  });
+});
+
+// Active nav highlight + navbar shadow on scroll
+const navbar = document.getElementById('navbar');
+const sections = ['home','about','roadmap','team','contact'];
+
+window.addEventListener('scroll', function() {
+  // shadow
+  navbar.classList.toggle('scrolled', window.scrollY > 20);
+
+  // highlight
+  let current = 'home';
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && window.scrollY >= el.offsetTop - 130) current = id;
+  });
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.classList.toggle('active', a.dataset.sec === current);
+  });
+});
+
+
+/* ══════════════════════════════════════
+   2. ANIMATED NUMBER COUNTERS (hero stats)
+   — reads data-count attribute
+   — counts up with easing over ~1.4 seconds
+   — triggered once when hero enters viewport
+══════════════════════════════════════ */
+function animateCounter(el, target, duration) {
+  let start = 0;
+  const step = Math.ceil(target / (duration / 16));
+  const suffix = target === 200 ? '+' : '';
+  const timer = setInterval(function() {
+    start = Math.min(start + step, target);
+    el.textContent = start + suffix;
+    if (start >= target) clearInterval(timer);
+  }, 16);
+}
+
+let countersRan = false;
+const heroEl = document.getElementById('home');
+new IntersectionObserver(function(entries) {
+  if (entries[0].isIntersecting && !countersRan) {
+    countersRan = true;
+    setTimeout(function() {
+      document.querySelectorAll('[data-count]').forEach(function(el) {
+        animateCounter(el, parseInt(el.dataset.count), 1400);
+      });
+    }, 900); // delay until after hero animation completes
+  }
+}, { threshold: 0.3 }).observe(heroEl);
+
+
+/* ══════════════════════════════════════
+   3. SCROLL-REVEAL ANIMATIONS
+   — adds .visible class when element enters viewport
+   — CSS handles the fade+slide transition
+══════════════════════════════════════ */
+const revealObs = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      revealObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal').forEach(function(el) {
+  revealObs.observe(el);
+});
+
+
+/* ══════════════════════════════════════
+   4. TOAST NOTIFICATION
+   — showToast(title, msg, duration)
+   — auto-hides after `duration` ms
+══════════════════════════════════════ */
+let toastTimer;
+function showToast(title, msg, duration) {
+  duration = duration || 4500;
+  document.getElementById('toastTitle').textContent = title;
+  document.getElementById('toastMsg').textContent = msg;
+  document.getElementById('toast').classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function() {
+    document.getElementById('toast').classList.remove('show');
+  }, duration);
+}
+
+
+/* ══════════════════════════════════════
+   5. FORM HELPERS
+   — validateField: marks group red if invalid
+   — isValidEmail: regex check
+   — setLoading: shows spinner, disables button
+   — showStatus / clearStatus: result messages
+══════════════════════════════════════ */
+function validateField(groupId, isValid) {
+  const g = document.getElementById(groupId);
+  if (g) g.classList.toggle('error', !isValid);
+  return isValid;
+}
+
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+}
+
+function setLoading(btnId, spinnerId, txtId, label, loading) {
+  document.getElementById(btnId).disabled = loading;
+  document.getElementById(spinnerId).style.display = loading ? 'block' : 'none';
+  document.getElementById(txtId).textContent = loading ? 'Sending...' : label;
+}
+
+function showStatus(id, type, msg) {
+  const el = document.getElementById(id);
+  el.className = 'form-status ' + type;
+  el.textContent = msg;
+}
+
+function clearStatus(id) {
+  const el = document.getElementById(id);
+  el.className = 'form-status';
+  el.textContent = '';
+}
+
+// Live error clearing as user types
+function bindClearError(inputId, groupId) {
+  const el = document.getElementById(inputId);
+  if (!el) return;
+  ['input','change'].forEach(function(ev) {
+    el.addEventListener(ev, function() {
+      document.getElementById(groupId).classList.remove('error');
+    });
+  });
+}
+
+
+/* ══════════════════════════════════════
+   6. CONTACT FORM SUBMISSION
+   — validates all fields before submit
+   — simulates async send (replace with
+     Formspree / EmailJS in production)
+   — shows success/error feedback + toast
+══════════════════════════════════════ */
+bindClearError('c-name',    'cg-name');
+bindClearError('c-email',   'cg-email');
+bindClearError('c-subject', 'cg-subject');
+bindClearError('c-message', 'cg-message');
+
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const name    = document.getElementById('c-name').value.trim();
+  const email   = document.getElementById('c-email').value.trim();
+  const subject = document.getElementById('c-subject').value;
+  const message = document.getElementById('c-message').value.trim();
+
+  // Validate — all fields must pass
+  const ok = [
+    validateField('cg-name',    name.length >= 2),
+    validateField('cg-email',   isValidEmail(email)),
+    validateField('cg-subject', subject !== ''),
+    validateField('cg-message', message.length >= 20)
+  ].every(Boolean);
+
+  if (!ok) return; // stop if any field fails
+
+  clearStatus('cStatus');
+  setLoading('cSubmitBtn', 'cSpinner', 'cBtnTxt', 'Send Message', true);
+
+  // ── Simulated async API call ──
+  // In production: replace with fetch() to Formspree, EmailJS, or your backend
+  setTimeout(function() {
+    setLoading('cSubmitBtn', 'cSpinner', 'cBtnTxt', 'Send Message', false);
+
+    const success = Math.random() > 0.05; // 95% success for demo
+    if (success) {
+      showStatus('cStatus', 'success', '✓ Message sent! We\'ll be in touch soon.');
+      document.getElementById('contactForm').reset();
+      showToast('Message Sent! ✓', 'Thank you ' + name + '. We\'ll reply to ' + email + ' shortly.');
+    } else {
+      showStatus('cStatus', 'error-msg-box', '✗ Something went wrong. Please try again.');
+    }
+  }, 1800);
+});
+
+
+/* ══════════════════════════════════════
+   7. MODALS — open / close / backdrop click
+   — openStory() / closeStory()
+   — openPartner() / closePartner()
+   — closeMdl(event, backdropId): closes on backdrop click
+   — Escape key closes any open modal
+══════════════════════════════════════ */
+function openStory() {
+  document.getElementById('storyBd').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeStory() {
+  document.getElementById('storyBd').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function openPartner() {
+  document.getElementById('partnerBd').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closePartner() {
+  document.getElementById('partnerBd').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeMdl(e, id) {
+  // Only close if user clicked the backdrop itself (not the modal inside)
+  if (e.target === document.getElementById(id)) {
+    document.getElementById(id).classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') { closeStory(); closePartner(); }
+});
+
+
+/* ══════════════════════════════════════
+   8. PARTNER TYPE SELECTOR
+   — toggles visual selection state
+   — stores chosen type in hidden input
+   — shows/hides context-specific fields
+   — updates textarea placeholder
+══════════════════════════════════════ */
+function pickType(btn) {
+  // Deselect all
+  document.querySelectorAll('.ptype-btn').forEach(function(b) {
+    b.classList.remove('selected');
+  });
+  // Select clicked
+  btn.classList.add('selected');
+
+  const type = btn.dataset.type;
+  document.getElementById('p-type').value = type;
+
+  // Show relevant dynamic fields
+  document.getElementById('pg-uniforms').style.display = (type === 'school')    ? 'block' : 'none';
+  document.getElementById('pg-funding').style.display  = (type === 'investor')  ? 'block' : 'none';
+
+  // Contextual placeholder text
+  const hints = {
+    school:   'Tell us about your school and uniform requirements...',
+    investor: 'Describe your investment interest and funding goals...',
+    ngo:      'Tell us how your organisation could collaborate with TTC...',
+    mentor:   'Share your skills and how you\'d like to contribute...'
+  };
+  document.getElementById('p-message').placeholder = hints[type] || 'Tell us more...';
+}
+
+
+/* ══════════════════════════════════════
+   9. PARTNER FORM SUBMISSION
+   — requires partnership type to be selected
+   — validates name, email, message
+   — simulates async send with spinner
+   — resets form + shows toast on success
+══════════════════════════════════════ */
+bindClearError('p-name',    'pg-name');
+bindClearError('p-email',   'pg-email');
+bindClearError('p-message', 'pg-pmsg');
+
+document.getElementById('partnerForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const name    = document.getElementById('p-name').value.trim();
+  const email   = document.getElementById('p-email').value.trim();
+  const message = document.getElementById('p-message').value.trim();
+  const type    = document.getElementById('p-type').value;
+
+  // Must select a partnership type first
+  if (!type) {
+    showToast('Select a Partnership Type', 'Please click one of the four options above before submitting.');
+    return;
+  }
+
+  // Validate required fields
+  const ok = [
+    validateField('pg-name',  name.length >= 2),
+    validateField('pg-email', isValidEmail(email)),
+    validateField('pg-pmsg',  message.length >= 10)
+  ].every(Boolean);
+
+  if (!ok) return;
+
+  clearStatus('pStatus');
+  setLoading('pSubmitBtn', 'pSpinner', 'pBtnTxt', 'Submit Request', true);
+
+  // ── Simulated async API call ──
+  setTimeout(function() {
+    setLoading('pSubmitBtn', 'pSpinner', 'pBtnTxt', 'Submit Request', false);
+
+    const success = Math.random() > 0.05;
+    if (success) {
+      showStatus('pStatus', 'success', '✓ Request received! We\'ll contact you within 48 hours.');
+      document.getElementById('partnerForm').reset();
+      document.querySelectorAll('.ptype-btn').forEach(function(b) { b.classList.remove('selected'); });
+      document.getElementById('p-type').value = '';
+      document.getElementById('pg-uniforms').style.display = 'none';
+      document.getElementById('pg-funding').style.display  = 'none';
+      showToast('Partnership Request Sent! ✓', 'Thank you ' + name + '! Expect a reply to ' + email + ' within 48 hrs.');
+    } else {
+      showStatus('pStatus', 'error-msg-box', '✗ Something went wrong. Please try again.');
+    }
+  }, 2000);
+});
+
+</script>
+</body>
+</html>
